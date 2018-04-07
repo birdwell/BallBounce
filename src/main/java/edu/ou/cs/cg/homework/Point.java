@@ -9,7 +9,6 @@ import javax.media.opengl.*;
 public class Point extends Point2D.Double {
 	private Vector velocity;
 	private final double START_SPEED = 0.01667;
-
 	Random rand = new Random();
 
 	public Point(double x, double y) {
@@ -22,13 +21,17 @@ public class Point extends Point2D.Double {
 	}
 
 	public void setVelocity(Vector newVelocity) {
-		System.out.println("NEW VELOCITY");
 		this.velocity = newVelocity;
 	}
 
 	public void move() {
-		this.x = this.velocity.getX() + x;
-		this.y = this.velocity.getY() + y;
+		this.x = this.velocity.addX(x);
+		this.y = this.velocity.addY(y);
+	}
+
+	public void change(Point center) {
+		this.x = center.getX();
+		this.y = center.getY();
 	}
 
 	public Vector future() {

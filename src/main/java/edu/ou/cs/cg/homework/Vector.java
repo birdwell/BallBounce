@@ -33,7 +33,7 @@ public class Vector {
 	}
 
 	public Vector(Point startPoint, Point endPoint) {
-		this.x = endPoint.x - startPoint.y;
+		this.x = endPoint.x - startPoint.x;
 		this.y = endPoint.y - startPoint.y;
 		this.startPoint = startPoint;
 		this.endPoint = endPoint;
@@ -61,7 +61,7 @@ public class Vector {
 	}
 
 	public Vector normalize() {
-		return new Vector (-this.y / this.magnitude, this.x / this.magnitude);
+		return new Vector(-this.y / this.magnitude, this.x / this.magnitude);
 	}
 
 	public Vector scale(double s) {
@@ -69,6 +69,10 @@ public class Vector {
 	}
 
 	public String toString() {
+		if (this.startPoint != null && this.endPoint != null) {
+			return "Start(" + this.startPoint.x + ", " + this.startPoint.y + ")" 
+					+ " End(" + this.endPoint.x + ", " + this.endPoint.y + ")";
+		}
 		return "Vector(" + x + ", " + y + ")";
 	}
 
@@ -105,8 +109,6 @@ public class Vector {
 
 	public Vector reflect(Vector n) {
 		// r = d − 2 ( d ⋅ n ) n
-		double dot_product = this.dot(n);
-		Vector scaleN = n.scale(dot_product * 2);
-		return this.sub(scaleN);
+		return this.sub(n.scale(this.dot(n) * 2));
 	}
 }

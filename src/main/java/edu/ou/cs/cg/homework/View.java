@@ -69,7 +69,8 @@ public final class View
 	private Polygon square;
 	private Polygon hexagon;
 	private Polygon thirtyTwoGon;
-	
+	private Polygon currentPoly;
+
 	//**********************************************************************
 	// Constructors and Finalizer
 	//**********************************************************************
@@ -81,7 +82,6 @@ public final class View
 		// Initialize model
 		origin = new Point2D.Double(0.0, 0.0);
 		cursor = null;
-		points = new ArrayList<Point2D.Double>();
 
 		// Initialize rendering
 		canvas.addGLEventListener(this);
@@ -145,7 +145,7 @@ public final class View
 
 		// Square
 		square = new Polygon(-0.5, 0.5, 4);
-
+		currentPoly = square;
 		// Hexagon
 		hexagon = new Polygon(-0.5, -0.5, 6);
 
@@ -205,34 +205,23 @@ public final class View
 		ball.move();
 
 		Vector future = ball.future();
-		Vector maybeCollision = square.maybeCollision(future);
-
-		/*
-			FUTURE: 
-				Vector(-1.2538283596731103, 0.014882432342366081)
-
-			MAYBE COLLISION: 
-				Vector(-1.5, -0.25)
-
-			Normalized coll: 
-				Vector(0.1643989873053573, -0.9863939238321437)
-
-			Reflected velocity: 
-				Vector(-1.1812271189310937, -0.42072501210973345)
-		*/
+		Vector maybeCollision = currentPoly.maybeCollision(future);
 
 		if (maybeCollision != null) {
-			System.out.println("FUTURE: ");
-			System.out.println(future);
-			System.out.println("MAYBE COLLISION: ");
-			System.out.println(maybeCollision);
 			Vector normalizedCollision = maybeCollision.normalize();
-			System.out.println("Normalized coll: ");
-			System.out.println(normalizedCollision);
 			Vector reflectedVelocity = future.reflect(normalizedCollision);
-			System.out.println("Reflected velocity: ");
-			System.out.println(reflectedVelocity);
 			ball.setVelocity(reflectedVelocity);
+
+
+			// System.out.println("FUTURE: ");
+			// System.out.println(ball.x + " " + ball.y);
+			// System.out.println(future);
+			// System.out.println("MAYBE COLLISION: ");
+			// System.out.println(maybeCollision);
+			// System.out.println("Normalized coll: ");
+			// System.out.println(normalizedCollision);
+			// System.out.println("reflected: ");
+			// System.out.println(reflectedVelocity);
 		}
 	}
 
@@ -246,6 +235,27 @@ public final class View
 		square.drawPolygon(gl);
 		hexagon.drawPolygon(gl);
 		thirtyTwoGon.drawPolygon(gl);
+	}
+
+	public void setCurrentPoly(int i) {
+		switch (i) {
+			case 1:
+				currentPoly = square;
+				ball.change(currentPoly.getCenter());
+				break;
+			case 2:
+				break;
+			case 3:
+				currentPoly = hexagon;
+				ball.change(currentPoly.getCenter());
+				break;
+			case 4:
+				currentPoly = thirtyTwoGon;
+				ball.change(currentPoly.getCenter());
+				break;
+			default:
+				break;
+		}
 	}
 }
 
