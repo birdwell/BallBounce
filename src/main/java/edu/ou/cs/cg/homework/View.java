@@ -207,11 +207,31 @@ public final class View
 		Vector future = ball.future();
 		Vector maybeCollision = square.maybeCollision(future);
 
+		/*
+			FUTURE: 
+				Vector(-1.2538283596731103, 0.014882432342366081)
+
+			MAYBE COLLISION: 
+				Vector(-1.5, -0.25)
+
+			Normalized coll: 
+				Vector(0.1643989873053573, -0.9863939238321437)
+
+			Reflected velocity: 
+				Vector(-1.1812271189310937, -0.42072501210973345)
+		*/
+
 		if (maybeCollision != null) {
+			System.out.println("FUTURE: ");
+			System.out.println(future);
 			System.out.println("MAYBE COLLISION: ");
 			System.out.println(maybeCollision);
 			Vector normalizedCollision = maybeCollision.normalize();
+			System.out.println("Normalized coll: ");
+			System.out.println(normalizedCollision);
 			Vector reflectedVelocity = future.reflect(normalizedCollision);
+			System.out.println("Reflected velocity: ");
+			System.out.println(reflectedVelocity);
 			ball.setVelocity(reflectedVelocity);
 		}
 	}

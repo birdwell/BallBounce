@@ -57,12 +57,11 @@ public class Vector {
 	}
 
 	public double dot(Vector other) {
-		return x * other.x + y * other.y;
+		return (x * other.x) + (y * other.y);
 	}
 
 	public Vector normalize() {
-		double mag = this.calcMagnitude();
-		return new Vector (x / mag, y / mag);
+		return new Vector (-this.y / this.magnitude, this.x / this.magnitude);
 	}
 
 	public Vector scale(double s) {
@@ -106,6 +105,8 @@ public class Vector {
 
 	public Vector reflect(Vector n) {
 		// r = d − 2 ( d ⋅ n ) n
-		return this.sub(n.scale((2 * (this.dot(n)))));
-	}	
+		double dot_product = this.dot(n);
+		Vector scaleN = n.scale(dot_product * 2);
+		return this.sub(scaleN);
+	}
 }
