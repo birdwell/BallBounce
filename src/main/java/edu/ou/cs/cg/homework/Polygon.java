@@ -20,6 +20,29 @@ public class Polygon {
 	private double cy;
 	private ArrayList<Vector> sides;
 
+	public Polygon(double cx, double cy, ArrayList<Double> offsets) {
+		this.cx = cx;
+		this.cy = cy;
+		this.n = offsets.size();
+		
+		double r = 0.25;
+		this.sides = new ArrayList<Vector>();
+
+		ArrayList<Point> points = new ArrayList<Point>();
+		int theta = 0;
+		for (Double offset : offsets) {
+			theta += offset;
+			double x = cx + r * Math.cos(Math.toRadians(theta));
+			double y = cy + r * Math.sin(Math.toRadians(theta));
+			points.add(new Point(x, y));
+		}
+
+		for (int i = 0; i < offsets.size() - 1; i++) {
+			this.sides.add(new Vector(points.get(i), points.get(i + 1)));
+		}
+		this.sides.add(new Vector(points.get(points.size() - 1), points.get(0))); // Last Point
+	}
+
 	public Polygon(double cx, double cy, double n) {
 		this.cx = cx;
 		this.cy = cy;

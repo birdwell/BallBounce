@@ -17,7 +17,6 @@ package edu.ou.cs.cg.homework;
 //import java.lang.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.*;
 
 //******************************************************************************
 
@@ -55,13 +54,13 @@ public final class KeyHandler extends KeyAdapter
 
 	public void		keyPressed(KeyEvent e)
 	{
-		Point2D.Double	p = view.getOrigin();
-		double			a = (Utilities.isShiftDown(e) ? 0.01 : 0.1);
-
 		switch (e.getKeyCode())
 		{
 			case KeyEvent.VK_1:
 				view.setCurrentPoly(1);
+				break;
+			case KeyEvent.VK_2:
+				view.setCurrentPoly(2);
 				break;
 			case KeyEvent.VK_3:
 				view.setCurrentPoly(3);
@@ -75,12 +74,7 @@ public final class KeyHandler extends KeyAdapter
 			case KeyEvent.VK_RIGHT:
 				view.ballSpeedChange(1.1);
 				break;
-			case KeyEvent.VK_DELETE:
-				view.clear();
-				return;
 		}
-
-		view.setOrigin(p);
 	}
 }
 

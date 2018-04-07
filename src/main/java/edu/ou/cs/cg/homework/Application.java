@@ -17,12 +17,9 @@ package edu.ou.cs.cg.homework;
 //import java.lang.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
 import javax.swing.*;
 import javax.media.opengl.*;
 import javax.media.opengl.awt.*;
-import javax.media.opengl.glu.*;
-import com.jogamp.opengl.util.*;
 import edu.ou.cs.cg.homework.View;
 
 //******************************************************************************
