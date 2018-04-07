@@ -237,6 +237,10 @@ public final class View
 		thirtyTwoGon.drawPolygon(gl);
 	}
 
+	public void ballSpeedChange(double i) {
+		ball.modifyVelocity(i);
+	}
+
 	public void setCurrentPoly(int i) {
 		switch (i) {
 			case 1:

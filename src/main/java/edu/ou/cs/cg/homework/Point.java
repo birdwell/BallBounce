@@ -24,6 +24,10 @@ public class Point extends Point2D.Double {
 		this.velocity = newVelocity;
 	}
 
+	public void modifyVelocity(double i) {
+		this.velocity = this.velocity.scale(i);
+	}
+
 	public void move() {
 		this.x = this.velocity.addX(x);
 		this.y = this.velocity.addY(y);

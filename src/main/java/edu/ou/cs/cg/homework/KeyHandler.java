@@ -69,6 +69,12 @@ public final class KeyHandler extends KeyAdapter
 			case KeyEvent.VK_4:
 				view.setCurrentPoly(4);
 				break;
+			case KeyEvent.VK_LEFT:
+				view.ballSpeedChange(0.9);
+				break;
+			case KeyEvent.VK_RIGHT:
+				view.ballSpeedChange(1.1);
+				break;
 			case KeyEvent.VK_DELETE:
 				view.clear();
 				return;
