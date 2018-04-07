@@ -101,6 +101,11 @@ public class Vector {
 	}
 
 	public double addY(double y) {
-		return (double) x + this.y;
+		return (double) y + this.y;
 	}
+
+	public Vector reflect(Vector n) {
+		// r = d − 2 ( d ⋅ n ) n
+		return this.sub(n.scale((2 * (this.dot(n)))));
+	}	
 }
