@@ -94,6 +94,18 @@ public class Polygon {
 		return null;
 	}
 
+	public Vector maybeCollisions(ArrayList<Vector> futureVectors) {
+		for(Vector future: futureVectors) {
+			for(Vector side: sides) {
+				if(intersection(side, future)) {
+					return side;
+				}
+			}
+		}
+
+		return null;
+	}
+
 	private Boolean intersection(Vector a, Vector b) {
 		Point startA = a.getStart();
 		Point endA = a.getEnd();

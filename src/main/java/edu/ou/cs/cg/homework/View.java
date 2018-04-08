@@ -64,7 +64,6 @@ public final class View
 
 	private Point2D.Double				origin;		// Current origin coordinates
 	private Point2D.Double				cursor;		// Current cursor coordinates
-	private ArrayList<Point2D.Double>	points;		// User's polyline points
 	private Point 						ball;
 	private Polygon square;
 	private Polygon hexagon;
@@ -121,7 +120,6 @@ public final class View
 
 	public void		clear()
 	{
-		points.clear();
 		canvas.repaint();
 	}
 
@@ -220,14 +218,27 @@ public final class View
 		counter++;								// Counters are useful, right?
 		ball.move();
 
-		Vector future = ball.future();
-		Vector maybeCollision = currentPoly.maybeCollision(future);
+		if (ball.isPolygon) {
+			ArrayList<Vector> futureVectors = ball.futures();
+			Vector future = ball.future();
+			Vector maybeCollision = currentPoly.maybeCollisions(futureVectors);
+			
+			if (maybeCollision != null) {
+				Vector normalizedCollision = maybeCollision.normalize();
+				Vector reflectedVelocity = future.reflect(normalizedCollision);
+				ball.setVelocity(reflectedVelocity);
+			}
+		} else {
+			Vector future = ball.future();
+			Vector maybeCollision = currentPoly.maybeCollision(future);
 
-		if (maybeCollision != null) {
-			Vector normalizedCollision = maybeCollision.normalize();
-			Vector reflectedVelocity = future.reflect(normalizedCollision);
-			ball.setVelocity(reflectedVelocity);
+			if (maybeCollision != null) {
+				Vector normalizedCollision = maybeCollision.normalize();
+				Vector reflectedVelocity = future.reflect(normalizedCollision);
+				ball.setVelocity(reflectedVelocity);
+			}
 		}
+
 	}
 
 	private void	render(GLAutoDrawable drawable)
@@ -264,6 +275,29 @@ public final class View
 			case 4:
 				currentPoly = thirtyTwoGon;
 				ball.change(currentPoly.getCenter());
+				break;
+			default:
+				break;
+		}
+	}
+
+	public void setBallType(int i) {
+		Point center = currentPoly.getCenter();
+		switch (i) {
+			case 6:
+				// 6 - point
+				ball = new Point(center.getX(), center.getY());
+				break;
+			case 7:
+				// 7 - square
+				ball = new Point(center.getX(), center.getY(), 4);
+				break;
+			case 8:
+				// 8 - octagon
+				ball = new Point(center.getX(), center.getY(), 8);
+				break;
+			case 9:
+				// 9 - weird polygon
 				break;
 			default:
 				break;

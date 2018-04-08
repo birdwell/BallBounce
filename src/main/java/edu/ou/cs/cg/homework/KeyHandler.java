@@ -74,6 +74,18 @@ public final class KeyHandler extends KeyAdapter
 			case KeyEvent.VK_RIGHT:
 				view.ballSpeedChange(1.1);
 				break;
+			case KeyEvent.VK_6:
+				view.setBallType(6);
+				break;
+			case KeyEvent.VK_7:
+				view.setBallType(7);
+				break;
+			case KeyEvent.VK_8:
+				view.setBallType(8);
+				break;
+			case KeyEvent.VK_9:
+				view.setBallType(9);
+				break;
 		}
 	}
 }
