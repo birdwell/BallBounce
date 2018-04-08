@@ -50,6 +50,27 @@ public class Point extends Point2D.Double {
 		this.setupPoints();
 	}
 
+	public Point(double x, double y, ArrayList<Integer> pointOffsets) {
+		super(x, y);
+
+		this.isPolygon = true;
+
+		double xComponent = (rand.nextDouble() * 2.0 - 1.0) * this.START_SPEED;
+		double yComponent = (double) Math.sqrt(Math.pow(this.START_SPEED, 2) - Math.pow(xComponent, 2));
+		this.velocity = new Vector(xComponent, yComponent);
+		this.n = pointOffsets.size();
+		double r = 0.05;
+		this.points = new ArrayList<Point>();
+		
+		double theta = 0;
+		for (int i = 0; i < n; i++) {
+			theta += (double) pointOffsets.get(i);
+			double cx = r * Math.cos(Math.toRadians(theta));
+			double cy = r * Math.sin(Math.toRadians(theta));
+			points.add(new Point(cx, cy));
+		}
+	}
+
 	public void setupPoints () {
 		double offset = 360 / (double) this.n;
 		double r = 0.05;

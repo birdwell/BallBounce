@@ -298,6 +298,13 @@ public final class View
 				break;
 			case 9:
 				// 9 - weird polygon
+				ArrayList<Integer> offsets = new ArrayList<Integer>();
+				offsets.add(35);
+				offsets.add(55);
+				offsets.add(25);
+				offsets.add(40);
+				offsets.add(90);
+				ball = new Point(center.getX(), center.getY(), offsets);
 				break;
 			default:
 				break;
