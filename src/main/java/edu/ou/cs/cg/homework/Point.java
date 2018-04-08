@@ -24,6 +24,8 @@ public class Point extends Point2D.Double {
 	private int n;
 	private final double START_SPEED = 0.01667;
 	public boolean isPolygon;
+	private double radius;
+	private ArrayList<Integer> pointOffsets;
 
 	Random rand = new Random();
 
@@ -36,6 +38,7 @@ public class Point extends Point2D.Double {
 		this.velocity = new Vector(xComponent, yComponent);
 		this.points = null;
 		this.n = 0;
+		this.pointOffsets = null;
 	}
 
 	public Point(double x, double y, int n) {
@@ -47,6 +50,8 @@ public class Point extends Point2D.Double {
 		double yComponent = (double) Math.sqrt(Math.pow(this.START_SPEED, 2) - Math.pow(xComponent, 2));
 		this.velocity = new Vector(xComponent, yComponent);
 		this.n = n;
+		this.pointOffsets = null;
+		this.radius = 0.05;
 		this.setupPoints();
 	}
 
@@ -59,28 +64,28 @@ public class Point extends Point2D.Double {
 		double yComponent = (double) Math.sqrt(Math.pow(this.START_SPEED, 2) - Math.pow(xComponent, 2));
 		this.velocity = new Vector(xComponent, yComponent);
 		this.n = pointOffsets.size();
-		double r = 0.05;
-		this.points = new ArrayList<Point>();
-		
-		double theta = 0;
-		for (int i = 0; i < n; i++) {
-			theta += (double) pointOffsets.get(i);
-			double cx = r * Math.cos(Math.toRadians(theta));
-			double cy = r * Math.sin(Math.toRadians(theta));
-			points.add(new Point(cx, cy));
-		}
+		this.radius = 0.05;
+		this.pointOffsets = pointOffsets;
+		this.setupPoints();
 	}
 
 	public void setupPoints () {
-		double offset = 360 / (double) this.n;
-		double r = 0.05;
-
 		this.points = new ArrayList<Point>();
-
-		for (double theta = 0; theta < 360; theta += offset) {
-			double xPoint = r * Math.cos(Math.toRadians(theta));
-			double yPoint = r * Math.sin(Math.toRadians(theta));
-			points.add(new Point(xPoint, yPoint));
+		if (this.pointOffsets != null) {
+			double theta = 0;
+			for (int i = 0; i < n; i++) {
+				theta += (double) pointOffsets.get(i);
+				double cx = this.radius * Math.cos(Math.toRadians(theta));
+				double cy = this.radius * Math.sin(Math.toRadians(theta));
+				points.add(new Point(cx, cy));
+			}
+		} else {
+			double offset = 360 / (double) this.n;
+			for (double theta = 0; theta < 360; theta += offset) {
+				double xPoint = this.radius * Math.cos(Math.toRadians(theta));
+				double yPoint = this.radius * Math.sin(Math.toRadians(theta));
+				points.add(new Point(xPoint, yPoint));
+			}
 		}
 	}
 
@@ -166,6 +171,11 @@ public class Point extends Point2D.Double {
 			gl.glVertex2d(x, y);
 			gl.glEnd();
 		}
+	}
+
+	public void setRadius(double r) {
+		this.radius *= r ;
+		this.setupPoints();
 	}
 
 	public void print() {

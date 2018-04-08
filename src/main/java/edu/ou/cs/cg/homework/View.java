@@ -310,6 +310,10 @@ public final class View
 				break;
 		}
 	}
+
+	public void setBallRadius(double r) {
+		ball.setRadius(r);
+	}
 }
 
 //******************************************************************************
