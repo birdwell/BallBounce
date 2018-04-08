@@ -56,7 +56,7 @@ public final class View
 	private int						h;				// Canvas height
 
 	private final KeyHandler		keyHandler;
-
+	private final MouseHandler 		mouseHandler;
 	private final FPSAnimator		animator;
 	private int						counter = 0;	// Frame display counter
 
@@ -64,13 +64,13 @@ public final class View
 
 	private Point2D.Double				origin;		// Current origin coordinates
 	private Point2D.Double				cursor;		// Current cursor coordinates
-	private ArrayList<Point2D.Double>	points;		// User's polyline points
-	private Point 						ball;
 	private Polygon square;
 	private Polygon hexagon;
 	private Polygon thirtyTwoGon;
 	private Polygon convexGon;
 	private Polygon currentPoly;
+	private Integer ballType;
+	private ArrayList<Point> balls;
 
 	//**********************************************************************
 	// Constructors and Finalizer
@@ -91,6 +91,9 @@ public final class View
 
 		// Initialize interaction
 		keyHandler = new KeyHandler(this);
+		mouseHandler = new MouseHandler(this);
+
+		balls = new ArrayList<Point>();
 	}
 
 	//**********************************************************************
@@ -121,7 +124,6 @@ public final class View
 
 	public void		clear()
 	{
-		points.clear();
 		canvas.repaint();
 	}
 
@@ -166,9 +168,10 @@ public final class View
 		offsets.add(60.0);
 		offsets.add(10.0);
 		offsets.add(30.0);
-
+		ballType = 6;
 		convexGon = new Polygon(0.5, 0.5, offsets);
-		ball = new Point(-0.5, 0.5);
+		Point ball = new Point(-0.5, 0.5);
+		balls.add(ball);
 
 		renderer = new TextRenderer(new Font("Monospaced", Font.PLAIN, 12), true, true);
 	}
@@ -218,15 +221,29 @@ public final class View
 	private void	update(GLAutoDrawable drawable)
 	{
 		counter++;								// Counters are useful, right?
-		ball.move();
+		for (Point ball : balls) {
+			ball.move();
 
-		Vector future = ball.future();
-		Vector maybeCollision = currentPoly.maybeCollision(future);
+			if (ball.isPolygon) {
+				ArrayList<Vector> futureVectors = ball.futures();
+				Vector future = ball.future();
+				Vector maybeCollision = currentPoly.maybeCollisions(futureVectors);
 
-		if (maybeCollision != null) {
-			Vector normalizedCollision = maybeCollision.normalize();
-			Vector reflectedVelocity = future.reflect(normalizedCollision);
-			ball.setVelocity(reflectedVelocity);
+				if (maybeCollision != null) {
+					Vector normalizedCollision = maybeCollision.normalize();
+					Vector reflectedVelocity = future.reflect(normalizedCollision);
+					ball.setVelocity(reflectedVelocity);
+				}
+			} else {
+				Vector future = ball.future();
+				Vector maybeCollision = currentPoly.maybeCollision(future);
+
+				if (maybeCollision != null) {
+					Vector normalizedCollision = maybeCollision.normalize();
+					Vector reflectedVelocity = future.reflect(normalizedCollision);
+					ball.setVelocity(reflectedVelocity);
+				}
+			}
 		}
 	}
 
@@ -235,8 +252,9 @@ public final class View
 		GL2		gl = drawable.getGL().getGL2();
 
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT);		// Clear the buffer
-
-		ball.draw(gl);
+		for (Point ball : balls) {
+			ball.draw(gl);
+		}
 		square.drawPolygon(gl);
 		hexagon.drawPolygon(gl);
 		thirtyTwoGon.drawPolygon(gl);
@@ -244,27 +262,140 @@ public final class View
 	}
 
 	public void ballSpeedChange(double i) {
-		ball.modifyVelocity(i);
+		for (Point ball : balls) {
+			ball.modifyVelocity(i);
+		}
 	}
 
 	public void setCurrentPoly(int i) {
 		switch (i) {
 			case 1:
 				currentPoly = square;
-				ball.change(currentPoly.getCenter());
+				for (Point ball : balls) {
+					ball.change(currentPoly.getCenter());
+				}
 				break;
 			case 2:
 				currentPoly = convexGon;
-				ball.change(currentPoly.getCenter());
+				for (Point ball : balls) {
+					ball.change(currentPoly.getCenter());
+				}
 				break;
 			case 3:
 				currentPoly = hexagon;
-				ball.change(currentPoly.getCenter());
+				for (Point ball : balls) {
+					ball.change(currentPoly.getCenter());
+				}
 				break;
 			case 4:
 				currentPoly = thirtyTwoGon;
-				ball.change(currentPoly.getCenter());
+				for (Point ball : balls) {
+					ball.change(currentPoly.getCenter());
+				}
 				break;
+			default:
+				break;
+		}
+	}
+
+	public void setBallType(int ballType) {
+		Point center = currentPoly.getCenter();
+		this.ballType = ballType;
+		switch (ballType) {
+			case 6: {
+				// 6 - point
+				ArrayList<Point> newBalls = new ArrayList<Point>();
+				for (int i = 0; i < balls.size(); i++) {
+					Point ball = new Point(center.getX(), center.getY());
+					newBalls.add(ball);
+				}
+				this.balls = newBalls;
+				break;
+			}
+			case 7: {
+				// 7 - square
+				ArrayList<Point> newBalls = new ArrayList<Point>();
+				for (int i = 0; i < balls.size(); i++) {
+					Point ball = new Point(center.getX(), center.getY(), 4);
+					newBalls.add(ball);
+				}
+				this.balls = newBalls;
+				break;
+			}
+			case 8: {
+				// 8 - octagon
+				ArrayList<Point> newBalls = new ArrayList<Point>();
+				for (int i = 0; i < balls.size(); i++) {
+					Point ball = new Point(center.getX(), center.getY(), 8);
+					newBalls.add(ball);
+				}
+				this.balls = newBalls;
+				break;
+			}
+			case 9: {
+				// 9 - weird polygon
+				ArrayList<Integer> offsets = new ArrayList<Integer>();
+				offsets.add(35);
+				offsets.add(55);
+				offsets.add(25);
+				offsets.add(40);
+				offsets.add(90);
+				ArrayList<Point> newBalls = new ArrayList<Point>();
+				for (int i = 0; i < balls.size(); i++) {
+					Point ball = new Point(center.getX(), center.getY(), offsets);
+					newBalls.add(ball);
+				}
+				this.balls = newBalls;
+				break;
+			}
+			default:
+				break;
+		}
+	}
+
+	public void setBallRadius(double r) {
+		for (Point ball : balls) {
+			ball.setRadius(r);
+		}
+	}
+
+	public void addBall() {
+		switch (this.ballType) {
+			case 6: {
+				// 6 - point
+				Point center = this.currentPoly.getCenter();
+				Point ball = new Point(center.getX(), center.getY());
+				this.balls.add(ball);
+
+				break;
+			}
+			case 7: {
+				// 7 - square
+				Point center = this.currentPoly.getCenter();
+				Point ball = new Point(center.getX(), center.getY(), 4);
+				this.balls.add(ball);
+				break;
+			}
+			case 8: {
+				// 8 - hetagon
+				Point center = this.currentPoly.getCenter();
+				Point ball = new Point(center.getX(), center.getY(), 8);
+				this.balls.add(ball);
+				break;
+			}
+			case 9: {
+				// 9 - weird polygon
+				Point center = this.currentPoly.getCenter();
+				ArrayList<Integer> offsets = new ArrayList<Integer>();
+				offsets.add(35);
+				offsets.add(55);
+				offsets.add(25);
+				offsets.add(40);
+				offsets.add(90);
+				Point ball = new Point(center.getX(), center.getY(), offsets);
+				this.balls.add(ball);
+				break;
+			}
 			default:
 				break;
 		}
