@@ -1,15 +1,31 @@
 //******************************************************************************
-// Copyright (C) 2016 University of Oklahoma Board of Trustees.
+// Copyright (C) 2018 University of Oklahoma Board of Trustees.
 //******************************************************************************
-// Last modified: Tue Mar  1 18:52:22 2016 by Chris Weaver
+// Last modified: Sat Apr 07 2018 22:16:00 GMT-0500 (CDT) by Josh Birdwell
 //******************************************************************************
 // Major Modification History:
-//
-// 20160209 [weaver]:	Original file.
+// 20180407 [birdwell]: Homework 4	
+// 20160225 [weaver]:	Original file.
 //
 //******************************************************************************
 // Notes:
-//
+/*
+	Part 2 - Initial Reflection & Velocity Changer:
+		Most of the coding for this occured in the update function where we
+		check for collision.
+	Part 3 - Polygon Container Change & Dynamic Selection:
+		Most of the dynamic work for the changing of the containers was in here. Especially deciding
+		the offset for the convex polygon. I had to hook up the methods to change the polygon.
+		I had to make sure the ball woudl change over.
+	Part 4 - Polygon Ball & Ball Size Changer:
+		I had to add support for changing the ball type. There was a bunch of work needed for
+		checking the vectors colliding with the walls. The point is easy but the other shapes needed
+		to check their sides as well.
+	Part 5 - Add More Balls to Container: 
+		This required more refactoring than I thought I would need. I had to add an array list of points/balls
+		This changed the game on a ton of things. We now had to do multiple checks at event step 
+		we had implemented so far. (collisions, ball changes, container changes, size changes, speed changes, etc)
+*/
 //******************************************************************************
 
 package edu.ou.cs.cg.homework;

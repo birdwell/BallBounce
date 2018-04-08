@@ -1,3 +1,26 @@
+//******************************************************************************
+// Copyright (C) 2018 University of Oklahoma Board of Trustees.
+//******************************************************************************
+// Last modified: Sat Apr 07 2018 22:16:00 GMT-0500 (CDT) by Josh Birdwell
+//******************************************************************************
+// Major Modification History:
+// 20180407 [birdwell]: Homework 4	
+// 
+//
+//******************************************************************************
+// Notes:
+/*
+	Part 2 - Initial Reflection & Velocity Changer:
+		Started with a simple square. Used the circle points knowing I would have more 
+		complex polygons down the line. This is where the maybe collision and intersections
+		were very important to get right. The drawing was simple yet extendable at this point.
+	Part 3 - Polygon Container Change & Dynamic Selection:
+		I added support for the other containers. There was weird offset work needed for the 
+		convex polygon. The constructors need to be adabitble. 
+
+*/
+//******************************************************************************
+
 package edu.ou.cs.cg.homework;
 
 import java.awt.*;

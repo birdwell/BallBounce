@@ -1,17 +1,25 @@
 //******************************************************************************
-// Copyright (C) 2016 University of Oklahoma Board of Trustees.
+// Copyright (C) 2018 University of Oklahoma Board of Trustees.
 //******************************************************************************
-// Last modified: Mon Feb 29 23:46:15 2016 by Chris Weaver
+// Last modified: Sat Apr 07 2018 22:16:00 GMT-0500 (CDT) by Josh Birdwell
 //******************************************************************************
 // Major Modification History:
-//
+// 20180407 [birdwell]: Homework 4	
 // 20160225 [weaver]:	Original file.
 //
 //******************************************************************************
 // Notes:
-//
-//******************************************************************************
+/*
+	Part 2 - Initial Reflection & Velocity Changer:
 
+	Part 3 - Polygon Container Change & Dynamic Selection:
+
+	Part 4 - Polygon Ball & Ball Size Changer:
+
+	Part 5 - Add More Balls to Container: 
+		Added the mouse click handler for adding more balls.
+*/
+//******************************************************************************
 package edu.ou.cs.cg.homework;
 
 //import java.lang.*;

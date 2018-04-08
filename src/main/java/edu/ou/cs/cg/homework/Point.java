@@ -1,3 +1,30 @@
+//******************************************************************************
+// Copyright (C) 2018 University of Oklahoma Board of Trustees.
+//******************************************************************************
+// Last modified: Sat Apr 07 2018 22:16:00 GMT-0500 (CDT) by Josh Birdwell
+//******************************************************************************
+// Major Modification History:
+// 20180407 [birdwell]: Homework 4	
+// 
+//
+//******************************************************************************
+// Notes:
+/*
+	Part 2 - Initial Reflection & Velocity Changer:
+		Started with simple point and velocity
+		Added Future, Draw, and other basic functions
+		Move & Future were the two main functions for this step
+	Part 3 - Polygon Container Change & Dynamic Selection:
+		There wasn't much change in this file.
+	Part 4 - Polygon Ball & Ball Size Changer:
+		I had to change how I handled drawing and the different constructors.
+		I also had to add more private variables. I added a different futures to get
+		all the future vectors. 
+	Part 5 - Add More Balls to Container: 
+		There wasn't any change to add support for multiple points/balls.
+*/
+//******************************************************************************
+
 package edu.ou.cs.cg.homework;
 
 import java.util.Random;

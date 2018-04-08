@@ -1,15 +1,23 @@
 //******************************************************************************
-// Copyright (C) 2016 University of Oklahoma Board of Trustees.
+// Copyright (C) 2018 University of Oklahoma Board of Trustees.
 //******************************************************************************
-// Last modified: Mon Feb 29 23:36:04 2016 by Chris Weaver
+// Last modified: Sat Apr 07 2018 22:16:00 GMT-0500 (CDT) by Josh Birdwell
 //******************************************************************************
 // Major Modification History:
-//
+// 20180407 [birdwell]: Homework 4	
 // 20160225 [weaver]:	Original file.
 //
 //******************************************************************************
 // Notes:
-//
+/*
+	Part 2 - Initial Reflection & Velocity Changer:
+		Listened for the velocity changes on the arrow keys.
+	Part 3 - Polygon Container Change & Dynamic Selection:
+		Listened for the container changes.
+	Part 4 - Polygon Ball & Ball Size Changer:
+		Listened for the ball size on the arrow keeys.
+
+*/
 //******************************************************************************
 
 package edu.ou.cs.cg.homework;
